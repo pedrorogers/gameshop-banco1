@@ -1,14 +1,12 @@
 const { Pool } = require('pg');
 const readline = require('readline-sync');
 
-// ==========================================
-// ⚠️ ATENÇÃO: COLOQUE A SUA SENHA AQUI
-// ==========================================
+
 const pool = new Pool({
-    user: 'postgres',          // Geralmente é 'postgres'
+    user: 'postgres',       
     host: 'localhost',
-    database: 'gameshop_db',   // O banco que acabamos de criar
-    password: 'Devevery27',// A senha que você criou na instalação
+    database: 'gameshop_db',  
+    password: 'Devevery27',
     port: 5432,
 });
 
@@ -42,9 +40,9 @@ async function listarJogos() {
 }
 
 async function menuRealizarVenda() {
-    console.log('\n--- REALIZAR VENDA (TESTE DA PROCEDURE) ---');
+    console.log('\n--- REALIZAR VENDA ---');
     // Usando o ID 1, que é o 'Nathan Drake' que inserimos no script do banco
-    const clienteId = readline.questionInt('ID do Cliente (Digite 1 para o cliente teste): ');
+    const clienteId = readline.questionInt('ID do Cliente: ');
     
     const jogoIds = [];
     const quantidades = [];
@@ -61,11 +59,11 @@ async function menuRealizarVenda() {
     }
 
     try {
-        console.log('\nEnviando dados para a Procedure no PostgreSQL...');
+        console.log('\nEnviando dados...');
         await pool.query('CALL realizar_venda_jogos($1, $2, $3)', [clienteId, jogoIds, quantidades]);
-        console.log('🎉 Operação concluída! (COMMIT executado com sucesso)');
+        console.log('🎉 Operação concluída!');
     } catch (err) {
-        console.log('\n❌ FALHA NA TRANSAÇÃO (ROLLBACK EXECUTADO):');
+        console.log('\n❌ FALHA NA TRANSAÇÃO:');
         console.error(err.message);
     }
 }
@@ -74,11 +72,11 @@ async function main() {
     let rodando = true;
     while (rodando) {
         console.log('\n=====================================');
-        console.log('        GAME SHOP - TERMINAL         ');
+        console.log('        GAME SHOP - A NOSTALGIA DOS JOGOS É AQUI!         ');
         console.log('=====================================');
-        console.log('1. [CRUD] Cadastrar Jogo');
-        console.log('2. [CRUD] Listar Jogos');
-        console.log('3. [PROCEDURE] Realizar Venda');
+        console.log('1.Cadastrar Jogo');
+        console.log('2.Listar Jogos');
+        console.log('3.Realizar Venda');
         console.log('4. Sair');
         console.log('=====================================');
         
